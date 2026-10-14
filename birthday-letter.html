@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Birthday Letter 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Sacramento&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Courier+Prime&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#c23b36; --paper:#f3efec; --bg:#d9d1c7;
+  --w:min(92vw,560px);
+}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{
+  background:var(--bg);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='4' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .25 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  font-family:'Cormorant Garamond',Georgia,serif;color:var(--red);
+  overflow-x:hidden;
+}
+.scene{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 0}
+#letter{display:none;opacity:0;transition:opacity .9s}
+#letter.show{opacity:1}
+
+/* ---------- Amplop ---------- */
+#intro{transition:opacity .8s,transform .8s}
+#intro.leave{opacity:0;transform:translateY(6%) scale(.92);pointer-events:none}
+.env{
+  position:relative;width:min(86vw,400px);aspect-ratio:3/2;margin-top:18%;
+  border:0;background:none;padding:0;cursor:pointer;
+  animation:bob 3s ease-in-out infinite;-webkit-tap-highlight-color:transparent;
+}
+.env:focus-visible{outline:3px solid var(--red);outline-offset:10px}
+.env.open{animation:none}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.env .back{position:absolute;inset:0;background:#e2d5c7;border-radius:6px;box-shadow:0 18px 30px -12px rgba(60,40,30,.35)}
+.env svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.peek{
+  position:absolute;left:6%;right:6%;top:5%;bottom:8%;z-index:1;border-radius:3px;
+  background:var(--paper);display:flex;align-items:flex-start;justify-content:center;padding-top:9%;
+  font:500 clamp(14px,4.4vw,20px)/1 'Playfair Display',serif;color:var(--red);
+  transition:transform 1s cubic-bezier(.3,.7,.2,1) .55s;
+}
+.front{z-index:2}
+.name{
+  position:absolute;z-index:3;left:0;right:0;bottom:9%;text-align:center;
+  font:clamp(24px,8vw,36px)/1 'Sacramento',cursive;color:var(--red);
+}
+.flap{z-index:4;transform-origin:50% 0;transition:transform .7s ease-in-out,z-index 0s .35s}
+.seal{
+  position:absolute;z-index:5;left:50%;top:56%;width:15%;aspect-ratio:1;translate:-50% -50%;
+  border-radius:50%;background:var(--red);color:#f7eee8;display:grid;place-items:center;
+  font-size:clamp(14px,4.5vw,22px);box-shadow:0 3px 6px rgba(80,20,20,.4),inset 0 0 0 3px rgba(255,255,255,.14);
+  transition:opacity .3s;
+}
+.env.open .flap{transform:rotateX(180deg);z-index:0}
+.env.open .seal{opacity:0}
+.env.open .peek{transform:translateY(-62%)}
+.hint{margin-top:34px;font:400 clamp(15px,4vw,18px)/1.4 'Jost',sans-serif;letter-spacing:.04em;text-align:center;transition:opacity .4s}
+.hint.gone{opacity:0}
+
+/* ---------- Surat ---------- */
+.paper{
+  position:relative;width:var(--w);font-size:calc(var(--w)/36);
+  background:var(--paper);padding:3em 2.6em 2.6em;margin:1.2em 0;
+  filter:drop-shadow(0 .5em 1em rgba(60,40,30,.22));
+}
+.paper::before,.paper::after{
+  content:"";position:absolute;left:0;right:0;height:1.1em;pointer-events:none;
+  background:radial-gradient(circle,var(--paper) .5em,transparent .53em) 0 0/1.1em 1.1em repeat-x;
+}
+.paper::before{top:-.55em}.paper::after{bottom:-.55em}
+.paper .eL,.paper .eR{
+  position:absolute;top:0;bottom:0;width:1.1em;pointer-events:none;
+  background:radial-gradient(circle,var(--paper) .5em,transparent .53em) 0 0/1.1em 1.1em repeat-y;
+}
+.eL{left:-.55em}.eR{right:-.55em}
+
+.title{font:500 3.1em/1 'Playfair Display',serif;text-align:center;letter-spacing:.01em;margin-bottom:.9em}
+.head{display:flex;justify-content:space-between;align-items:center;gap:1em}
+.fields{display:flex;flex-direction:column;gap:1.4em;flex:1;max-width:15em}
+.field{position:relative;display:flex;align-items:baseline;gap:1em;padding-bottom:.15em}
+.field::after{content:"";position:absolute;left:0;right:0;bottom:0;height:.14em;background:var(--red);transform-origin:left;transform:scaleX(0)}
+.field label{font:.85em 'Courier Prime',monospace;letter-spacing:.06em}
+.field span{font:2em/1.1 'Sacramento',cursive;padding-left:.2em}
+.stamps{display:flex;gap:1em}
+.stamp{width:6.1em;aspect-ratio:3/4;background:var(--red);padding:.4em;border-radius:.2em;rotate:var(--tilt,0deg);box-shadow:0 .1em .3em rgba(80,20,20,.3)}
+.stamp .ph{width:100%;height:100%;border-radius:.1em;overflow:hidden;background:#e5c9c4;display:grid;place-items:center;font-size:1.6em}
+.stamp img{width:100%;height:100%;object-fit:cover;display:block}
+
+.greet{font:2.8em/1 'Sacramento',cursive;text-align:center;margin:.55em 0 .35em}
+.body p{font:italic 600 1.2em/1.38 'Cormorant Garamond',serif;text-align:justify;hyphens:none}
+.body p+p{margin-top:1.3em}
+.body .wd{display:inline-block}
+
+.foot{display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:center;margin-top:2.2em}
+.date{font:700 2.9em/1 'Playfair Display',serif;white-space:nowrap}
+.date .sl{font-weight:500;margin:0 .05em;font-size:1.25em}
+.date .m{position:relative;top:.45em}
+.mid{text-align:center}
+.mid .hp{font:2.6em/1 'Sacramento',cursive;display:block}
+.mid .sb{font:400 1.15em/1.2 'Jost',sans-serif;letter-spacing:.03em;text-transform:uppercase}
+.postmark{width:100%;height:auto;justify-self:end;overflow:visible}
+.postmark *{fill:none;stroke:var(--red);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+
+.again{margin:1em 0 2em;font:400 15px 'Jost',sans-serif;color:var(--red);background:none;border:1px solid var(--red);border-radius:99px;padding:.6em 1.4em;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .6s}
+.again.on{opacity:1;pointer-events:auto}
+.again:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+
+/* ---------- Animasi "digambar" ---------- */
+.w{clip-path:inset(-.4em 100% -.4em -.1em)}
+.field::after{transition:none}
+.pop{opacity:0}
+.go .w{animation:wipe var(--dur,.8s) var(--d,0s) cubic-bezier(.45,.1,.3,1) both}
+.go .field::after{animation:draw .7s var(--d,0s) ease-out both}
+.go .pop{animation:pop .6s var(--d,0s) cubic-bezier(.2,.9,.3,1.3) both}
+.go .postmark *{animation:stroke 1.6s var(--d,0s) ease-in-out both}
+@keyframes wipe{to{clip-path:inset(-.4em -.4em -.4em -.1em)}}
+@keyframes draw{to{transform:scaleX(1)}}
+@keyframes pop{from{opacity:0;scale:1.35}to{opacity:1;scale:1}}
+@keyframes stroke{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){
+  .w{clip-path:none!important;animation:none!important}
+  .pop{opacity:1!important;animation:none!important}
+  .field::after{transform:none!important;animation:none!important}
+  .postmark *{stroke-dashoffset:0!important;animation:none!important}
+  .env{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Amplop -->
+<main class="scene" id="intro">
+  <button class="env" id="env" aria-label="Buka surat">
+    <div class="back"></div>
+    <div class="peek" id="peekText"></div>
+    <svg class="front" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 0 L150 112 L300 0 L300 200 L0 200 Z" fill="#f3eadf"/>
+      <path d="M0 200 L110 105 M300 200 L190 105" stroke="rgba(150,110,90,.25)" stroke-width="1" fill="none" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="name" id="envName"></div>
+    <svg class="flap" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 0 L300 0 L150 112 Z" fill="#ebdfd2" stroke="rgba(150,110,90,.3)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="seal">♥</div>
+  </button>
+  <p class="hint" id="hint"></p>
+</main>
+
+<!-- Surat -->
+<main class="scene" id="letter">
+  <article class="paper" id="paper">
+    <i class="eL"></i><i class="eR"></i>
+    <h1 class="title w" id="title"></h1>
+    <div class="head">
+      <div class="fields">
+        <div class="field" id="fTo"><label>TO:</label><span class="w" id="toName"></span></div>
+        <div class="field" id="fFrom"><label>FROM:</label><span class="w" id="fromName"></span></div>
+      </div>
+      <div class="stamps" id="stamps"></div>
+    </div>
+    <h2 class="greet w" id="greet"></h2>
+    <div class="body" id="body"></div>
+    <div class="foot">
+      <div class="date pop" id="date"></div>
+      <div class="mid"><span class="hp w" id="hp"></span><span class="sb w" id="sb"></span></div>
+      <svg class="postmark" id="postmark" viewBox="0 0 210 110" aria-hidden="true">
+        <circle cx="52" cy="58" r="44" pathLength="1"/>
+        <circle cx="52" cy="58" r="37" pathLength="1" style="stroke-width:1.6"/>
+        <path pathLength="1" d="M78 22 q10 -9 20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/>
+        <path pathLength="1" d="M88 38 q10 -9 20 0 t20 0 t20 0 t20 0 t20 0"/>
+        <path pathLength="1" d="M92 54 q10 -9 20 0 t20 0 t20 0 t20 0 t20 0"/>
+        <path pathLength="1" d="M88 70 q10 -9 20 0 t20 0 t20 0 t20 0 t20 0"/>
+        <path pathLength="1" d="M78 86 q10 -9 20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/>
+      </svg>
+    </div>
+  </article>
+  <button class="again" id="again">↻ baca lagi</button>
+</main>
+
+<button id="mute" aria-label="Matikan musik" style="display:none;position:fixed;top:14px;right:14px;z-index:9;width:42px;height:42px;border-radius:50%;border:1px solid #c23b36;background:#f3efec;font-size:18px;cursor:pointer">🔊</button>
+
+<script>
+/* =====================================================
+   EDIT DI SINI — semua tulisan & foto bisa kamu ganti
+   ===================================================== */
+const CONFIG = {
+  to: "Rasya",
+  from: "Udzma",
+
+  // tampilan amplop
+  envelopeName: "for Rasya",
+  envelopeHint: "special letter 💌 — click to open",
+  envelopePeek: "A BIRTHDAY LETTER",
+
+  // isi surat
+  title: "A BIRTHDAY LETTER",
+  greeting: "Happy Birthday, Sayang",
+  paragraphs: [
+    "Happy 20th Birthday, bub! Akhirnya masuk kepala dua, cie makin tua. Semoga semua yang kamu rencanain pelan-pelan tercapai semua, dan hidup kamu selalu didatengin sama hal hal baik ya. Aku sayang banget sama kamu, makasih dah ada buat aku.",
+    "Di umur yang baru dan hubungan yang baru ini wkwkw, aku harap kamu makin jadi pribadi yang lebih baik (ga nyebelin wkwk), makin sayang sama diri sendiri, sama aku juga, dan semoga hubungan kita bisa berjalan dengan baik kedepannya. Jangan lupa, aku selalu ada buat support kamu, apapun itu terbuka ya sama aku. love u so much, always and in all ways 💕"
+  ],
+
+  // footer
+  day: "16",
+  month: "10",
+  happy: "happy",
+  subtitle: "Twenty Birthday",
+
+  // foto (taruh file di folder yang sama dengan file html ini,
+  // atau pakai link / data URL). Kosongkan "" kalau mau placeholder.
+  photos: [
+    { src: "cb.jpeg", tilt: "-1.5deg" },
+    { src: "cb2.jpeg", tilt: "1.5deg" }
+  ],
+
+  againLabel: "↻ baca lagi",
+
+  // backsound (taruh file mp3 di folder yang sama). Kosongkan "" kalau tidak mau.
+  music: "lagu.mp3",
+  musicVolume: 0.5   // 0 (hening) sampai 1 (paling keras)
+};
+/* ===================================================== */
+
+const $ = id => document.getElementById(id);
+const paper = $("paper"), letter = $("letter"), intro = $("intro"), env = $("env");
+let timers = [];
+
+function build(){
+  $("peekText").textContent = CONFIG.envelopePeek;
+  $("envName").textContent = CONFIG.envelopeName;
+  $("hint").textContent = CONFIG.envelopeHint;
+  $("title").textContent = CONFIG.title;
+  $("toName").textContent = CONFIG.to;
+  $("fromName").textContent = CONFIG.from;
+  $("greet").textContent = CONFIG.greeting;
+  $("hp").textContent = CONFIG.happy;
+  $("sb").textContent = CONFIG.subtitle;
+  $("again").textContent = CONFIG.againLabel;
+  $("date").innerHTML = `<span>${CONFIG.day}</span><span class="sl">/</span><span class="m">${CONFIG.month}</span>`;
+
+  $("stamps").innerHTML = "";
+  CONFIG.photos.forEach(p => {
+    const s = document.createElement("div");
+    s.className = "stamp pop";
+    s.style.setProperty("--tilt", p.tilt || "0deg");
+    const ph = document.createElement("div"); ph.className = "ph";
+    const fallback = () => { ph.innerHTML = "📷"; };
+    if (p.src){
+      const img = new Image(); img.alt = ""; img.onerror = fallback; img.src = p.src;
+      ph.appendChild(img);
+    } else fallback();
+    s.appendChild(ph); $("stamps").appendChild(s);
+  });
+
+  $("body").innerHTML = "";
+  CONFIG.paragraphs.forEach(txt => {
+    const p = document.createElement("p");
+    txt.split(/\s+/).forEach((w,i,a) => {
+      const sp = document.createElement("span"); sp.className = "wd w"; sp.textContent = w;
+      p.appendChild(sp); if (i < a.length-1) p.appendChild(document.createTextNode(" "));
+    });
+    $("body").appendChild(p);
+  });
+}
+
+function schedule(){
+  let t = .4;
+  const set = (el, dur, next) => { el.style.setProperty("--d", t+"s"); el.style.setProperty("--dur", dur+"s"); t += next; };
+  set($("title"), 1.1, 1.0);
+  set($("fTo"), .7, .2);       set($("toName"), .6, .5);
+  set($("fFrom"), .7, .2);     set($("fromName"), .6, .5);
+  paper.querySelectorAll(".stamp").forEach(s => set(s, .6, .35));
+  t += .1;
+  set($("greet"), 1.0, 1.1);
+  paper.querySelectorAll(".body .wd").forEach(w => set(w, .35, .07));
+  t += .3;
+  set($("date"), .6, .4);
+  set($("hp"), .8, .5);
+  set($("sb"), .8, .4);
+  paper.querySelectorAll("#postmark *").forEach((el,i) => el.style.setProperty("--d", (t + i*.15)+"s"));
+  return t + 2.2;
+}
+
+function showLetter(){
+  build();
+  const total = schedule();
+  letter.style.display = "flex";
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    letter.classList.add("show");
+    paper.classList.add("go");
+    window.scrollTo({top:0});
+  }));
+  timers.push(setTimeout(() => $("again").classList.add("on"), total*1000));
+}
+
+const bgm = CONFIG.music ? new Audio(CONFIG.music) : null;
+if (bgm){ bgm.loop = true; bgm.volume = CONFIG.musicVolume; }
+$("mute").addEventListener("click", () => {
+  if (!bgm) return;
+  bgm.muted = !bgm.muted;
+  $("mute").textContent = bgm.muted ? "🔇" : "🔊";
+});
+
+env.addEventListener("click", () => {
+  if (env.classList.contains("open")) return;
+  if (bgm){ bgm.play().catch(()=>{}); $("mute").style.display = "block"; }
+  env.classList.add("open"); $("hint").classList.add("gone");
+  timers.push(setTimeout(() => intro.classList.add("leave"), 2000));
+  timers.push(setTimeout(() => { intro.style.display = "none"; showLetter(); }, 2700));
+});
+
+$("again").addEventListener("click", () => {
+  timers.forEach(clearTimeout); timers = [];
+  $("again").classList.remove("on");
+  paper.classList.remove("go"); void paper.offsetWidth;
+  letter.classList.remove("show");
+  setTimeout(showLetter, 350);
+});
+
+build();
+</script>
+</body>
+</html>
